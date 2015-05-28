@@ -23,11 +23,11 @@
     <div class="container-fluid">
         <div class="row">
             <!-- vores logo i øvre venstre hjørne -->
-            <div class="col-md-1">
-                <a id="logo" href="/" class="col-md-1 nav-bar-item "></a>
+            <div class="col-md-2 col-sm-2 col-xs-4">
+                <a id="logo" href="/" class="nav-bar-item "></a>
             </div>
-            <div class="nav-bar-item col-md-2 searchBar">
-                <i class="col-md-1 fa fa-search"></i>
+            <div class="nav-bar-item col-md-2 col-sm-2 col-xs-3 searchBar">
+                <i class="fa fa-search"></i>
 
                 <input id="inputSearch" class="no-border" placeholder="Search" type="text" data-toggle="dropdown" role="button" aria-expanded="false" onkeyup="searchForThings()" autocomplete="off">
 
@@ -48,35 +48,33 @@
                     <li style="background-color: lightgray; height: 40px;"><a href="#" id="searchResult" style="text-align: center; color: #3b5998; padding: 15px; font-size: x-small">Se flere resultater for:</a></li>
                 </ul>
             </div>
-            @Html.ActionLink("Explore", "Explore", "Home", routeValues: null, htmlAttributes: new {@class = "col-md-1 nav-bar-item", id = "exploreLink"})
-            @Html.ActionLink("Help", "Help", "Home", routeValues: null, htmlAttributes: new {@class = "col-md-1 nav-bar-item pull-right", id = "helpLink"})
-            <div class="nav-bar-item half-col pull-right">
-                <a id="envelopeLink" href="/" class="col-md-1">
+            @Html.ActionLink("Explore", "Explore", "Home", routeValues: null, htmlAttributes: new { @class = "nav-bar-item col-md-1 col-sm-2 hidden-xs", id = "exploreLink" })
+            @Html.ActionLink("Help", "Help", "Home", routeValues: null, htmlAttributes: new { @class = " nav-bar-item col-md-1 col-xs-1 pull-right", id = "helpLink" })
+            <div class="nav-bar-item pull-right col-sm-1 hidden-xs">
+                <a id="envelopeLink" href="/">
                     <i class="fa fa-envelope-o fa-lg"></i>
                 </a>
             </div>
-            <div class="nav-bar-item half-col pull-right">
+            <div class="nav-bar-item pull-right col-sm-1 hidden-xs">
                 <a id="notificationLink" href="/">
                     <i class="fa fa-star-o fa-lg"></i>
                 </a>
             </div>
-            <div class="nav-bar-item col-md-2 dropdown pull-right">
-                <div class="profileTab">
-                    <span id="first_name"> @{ Html.RenderAction("GetUserFirstName", "Utility");}</span>
-                    <img src="~/Images/profileImg.jpg" width="30px" height="30px" class="profileImage" alt="This should have been your profile image"/>
-                    <span class="caret dropdown dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-                        </span>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                <li role="presentation"> @Html.ActionLink("Profile", "Index", "User",routeValues: null,htmlAttributes: new { @class = "", id = "helpLink",tabindex="-1",role="menuitem" }) </li>
-                                <li role="presentation">@Html.ActionLink("My Programs", "MyPrograms", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                                <li role="presentation">@Html.ActionLink("Create Program", "CreateProgram", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                                <li role="presentation">@Html.ActionLink("Wishlist", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                                <li role="presentation">@Html.ActionLink("Inbox", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                                <li role="presentation">@Html.ActionLink("Notifications", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                                <li role="presentation">@Html.ActionLink("Log out", "LogOff", "Account", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="nav-bar-item col-md-1 col-sx-3 dropdown pull-right">
+                <span id="first_name"> @{ Html.RenderAction("GetUserFirstName", "Utility");}</span>
+                <img src="~/Images/profileImg.jpg" width="30px" height="30px" class="profileImage" alt="This should have been your profile image" />
+                <span class="caret dropdown dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                </span>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"> @Html.ActionLink("Profile", "Index", "User", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" }) </li>
+                    <li role="presentation">@Html.ActionLink("My Programs", "MyPrograms", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                    <li role="presentation">@Html.ActionLink("Create Program", "CreateProgram", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                    <li role="presentation">@Html.ActionLink("Wishlist", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                    <li role="presentation">@Html.ActionLink("Inbox", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                    <li role="presentation">@Html.ActionLink("Notifications", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                    <li role="presentation">@Html.ActionLink("Log out", "LogOff", "Account", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                </ul>
+            </div>
                 </div>
             </div>
         </div>
