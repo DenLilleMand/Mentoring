@@ -25,7 +25,7 @@ namespace Mentor.Controllers
 {
     public class ProgramsController : Controller
     {
-        private readonly ProgramRepository _programRepository;
+        private readonly IProgramRepository _programRepository;
         private readonly UserRepository _userRepository;
         private readonly InterestRepository _interestRepository;
 
@@ -48,7 +48,7 @@ namespace Mentor.Controllers
          * allows us to implement kind of badly thought out design, but it works. 
          */
 
-        public ProgramsController(ProgramRepository programRepository, UserRepository userRepository,
+        public ProgramsController(IProgramRepository programRepository, UserRepository userRepository,
             InterestRepository interestRepository)
         {
             _programRepository = programRepository;

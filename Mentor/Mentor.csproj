@@ -244,6 +244,7 @@
     <Compile Include="Models\Repositories\ConcreteImplementation\ProgramRepository.cs" />
     <Compile Include="Models\Repositories\ConcreteImplementation\UserRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IContextEntity.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IProgramRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IUtilityRepository.cs" />
     <Compile Include="Models\UserMessage.cs" />

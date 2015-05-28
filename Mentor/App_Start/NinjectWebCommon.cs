@@ -52,7 +52,7 @@ namespace Mentor.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
                 //unit of work /// constructor
                 kernel.Bind<ApplicationDbContext>().ToSelf().InRequestScope();
-                kernel.Bind<AbstractIRepository<Program>>().To<ProgramRepository>().WithConstructorArgument("context", context => kernel.Get<ApplicationDbContext>());
+                kernel.Bind<IProgramRepository>().To<ProgramRepository>().WithConstructorArgument("context", context => kernel.Get<ApplicationDbContext>());
                 kernel.Bind<AbstractIRepository<User>>().To<UserRepository>().WithConstructorArgument("context", context => kernel.Get<ApplicationDbContext>());
                 kernel.Bind<AbstractIRepository<Interest>>().To<InterestRepository>().WithConstructorArgument("context", context => kernel.Get<ApplicationDbContext>());
 

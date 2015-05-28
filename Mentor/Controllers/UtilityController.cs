@@ -15,9 +15,9 @@ namespace Mentor.Controllers
     public class UtilityController : Controller
     {
         private readonly UserRepository _userRepository;
-        private readonly ProgramRepository _programRepository;
+        private readonly IProgramRepository _programRepository;
 
-        public UtilityController( UserRepository userRepository, ProgramRepository programRepository)
+        public UtilityController(UserRepository userRepository, IProgramRepository programRepository)
         {
             _userRepository = userRepository;
             _programRepository = programRepository;

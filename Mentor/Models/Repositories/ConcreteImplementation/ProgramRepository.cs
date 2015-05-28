@@ -11,10 +11,10 @@ using Mentor.Models.Repositories.Interfaces;
 namespace Mentor.Models.Repositories.ConcreteImplementation
 {
     //Burde implementere sit eget interface, der arver fra det andet. 
-    public class ProgramRepository : AbstractIRepository<Program>
+    public class ProgramRepository : AbstractIRepository<Program>, IProgramRepository 
     {
         public ProgramRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext) {}
-
+        
         private User CurrentUser { get; set; }
         public IEnumerable<Program> Search(string search)
         {
