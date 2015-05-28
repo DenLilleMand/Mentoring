@@ -1,0 +1,130 @@
+﻿@using Microsoft.AspNet.Identity
+@model Mentor.ViewModels.InterestViewModel
+@{
+    Layout = "~/Views/Shared/_LoggedInHeader.cshtml";
+}
+
+@Styles.Render("~/Content/css/jquery.tagit.css")
+@Styles.Render("~/Content/css/tagit.ui-zendesk.css")
+@Styles.Render("~/Content/css/register.css")
+
+<script src="~/Scripts/jquery-2.1.3.js"></script>
+<script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+<script src="~/Scripts/tag-it.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $("#myTags").tagit({
+            removeConfirmation: true,
+            allowSpaces: true
+        });
+
+        var tagArray = [];
+
+        //I've written out all events..
+        var eventTags = $("#myTags");
+
+        //API
+        eventTags.tagit({
+            beforeTagAdded: function(evt, ui) {
+                if (!ui.duringInitialization) {
+                    tagArray.push(eventTags.tagit('tagLabel', ui.tag));
+                    console.log(tagArray);
+
+                    }
+                },
+                afterTagAdded: function (evt, ui) {
+
+                    if (!ui.duringInitialization) {
+                    }
+                },
+                beforeTagRemoved: function (evt, ui) {
+
+                },
+                //we remove
+                afterTagRemoved: function (evt, ui) {
+                    var removeIndex;
+                    for (var i = 0; i < tagArray.length; i++) {
+                        if (tagArray[i] === eventTags.tagit('tagLabel', ui.tag)) {
+                            removeIndex = i;
+                            break;
+                        }
+                    }
+                    tagArray.splice(removeIndex, 1);
+                },
+                onTagClicked: function(evt, ui) {
+                },
+                onTagExists: function (evt, ui) {
+
+                }
+        });
+
+        function postInterests(tagArray) {
+            var viewModel = {
+               Interests: tagArray
+            }
+            $.ajax({
+                url: '@Url.Action("Interests","User")',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(viewModel),
+            success: function (response) {
+                window.location.href = response.RedirectUrl;
+            }, error: function (data, succes, error) {
+                console.log('error happended');
+                console.log(error);
+            }
+            });
+
+           /* var test = { 'input': inputSearchText };
+            $.ajax({
+                type: 'POST',
+                url: '/Utility/GetSearchData',
+                data: JSON.stringify(test),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (data) {
+                    $('.searchField').show();
+                    searchUsers(data.Users);
+                    searchMentorPrograms(data.Programs);
+
+                }, error: function (data, succes, error) {
+                    alert('Something went wrong, try and search again');
+                }
+            });*/
+    }
+
+        $('#post_interests').click(function() {
+            postInterests(tagArray);
+        });
+    });
+    </script>
+
+<div class="page-wrapper-interests">
+        <div class="container">
+            <div class="center-div rounded-content center-horizontal">
+                <h2 class="title">
+                    Hi @Model.CurrentUser.FirstName, please tell us about your interests
+                </h2>
+                    <div class="row">
+                        <div class="form-group col-md-10 center-horizontal input-margin">
+                            Write anything you like to do. Seperate with a tab, comma, or return key
+                            <ul id="myTags"></ul>
+                            <div class="row">
+                                <div class="form-group">
+                                    <input id="post_interests" value="Continue" class="btn btn--green btn--large col-md-10 center-horizontal input-margin" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+</div>
+
+
+
+
+
+
+

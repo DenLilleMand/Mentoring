@@ -1,0 +1,76 @@
+﻿@using Mentor.Models
+@using Microsoft.Ajax.Utilities
+@model Mentor.ViewModels.CreateProgramViewModel
+
+
+@{
+    ViewBag.Title = "Create Program";
+    Layout = "~/Views/Shared/_LoggedInHeader.cshtml";
+}
+
+<link href="~/Content/css/account.css" rel="stylesheet" />
+
+<div class="page-wrapper">
+    @using (Html.BeginForm("CreateProgram", "Programs", FormMethod.Post, new { @class = "center-align form-group", role = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="container">
+            <div class="center-div rounded-content center-horizontal">
+                <h2 class="title">
+                    Create Program
+                </h2>
+                <div class="row">
+                    <div class="form-group col-md-10 center-horizontal input-margin">
+                        @Html.ValidationSummary("", new {@class = "text-danger"})
+                        @Html.TextBoxFor(m => m.ProgramToBeCreated.Name, new {@id = "Name", @class = "form-control", @placeholder = "Name"})
+                    </div>
+                </div>
+
+                @{
+                    List<SelectListItem> interestItems = new List<SelectListItem>();
+
+                    System.Diagnostics.Debug.WriteLine("Current user from view:" + Model.CurrentUser);
+                    System.Diagnostics.Debug.WriteLine("Current user from view:" + Model.UndefinedInterests);
+                    Model.UndefinedInterests.ForEach(delegate(Interest interest)
+                    {
+                        interestItems.Add(new SelectListItem
+                        {
+                            Text = interest.Name,
+                            Value = interest.Id.ToString()
+                        });
+                    });
+                        List<SelectListItem> visibilityOptions = new List<SelectListItem>();
+                        visibilityOptions.Add(new SelectListItem
+                        {
+                            Text = "Public",
+                            Value = Visibility.Public.ToString()
+                        });
+                        visibilityOptions.Add(new SelectListItem
+                        {
+                            Text = "Private",
+                            Value = Visibility.Private.ToString()
+                        });
+                }
+                <div class="row form-group">
+                    @Html.DropDownListFor(model => model.InterestId, interestItems, "-- Select interest --")
+                </div>
+                <div class="row form-group">
+                    @Html.DropDownListFor(model => model.VisibilityHolder, visibilityOptions, "-- Select privacy settings --")
+                </div>
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.File)
+                    <input type="file" name="file" id="file" style="margin-left:20%"/>
+                </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <input value="Create Program" class="btn btn--green btn--large col-md-10 center-horizontal input-margin" type="submit" />
+                        </div>
+                    </div>
+                </div>
+        </div>
+    }
+</div>
+
+
+
+
+

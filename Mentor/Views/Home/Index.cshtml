@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_NotLoggedInLayout.cshtml";
+}
+
+<link href="~/Content/css/index.css" rel="stylesheet"/>
+
+<div class="page-wrapper bg">
+    <div class="container">
+        <div class="row center-align-text middle-page">
+            <h1 id="tagline">
+                Everyone can learn something from someone
+            </h1>
+            <h2>
+                Join a world of teachers and learners
+            </h2>
+        </div>
+
+        <div class="center-align-text">
+                @Html.ActionLink("Start here", "Start", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn--green btn--large", id = "loginLink" })
+        </div>
+    </div>
+</div>
+
+<div class="middle-page-wrapper">
+    <div class="upper-left">
+        <div class="circle-on-icon">
+            <span class="bullseye-icon fa-4x"></span>
+        </div>
+        <div class="presentation-text center-align-text">
+            <h3>Reach your goals</h3>
+            <p>
+                Define exactly what you want to learn and be on top of your game from novice
+                to master
+            </p>
+        </div>
+    </div>
+    <div class="upper-rigth">
+        <div class="circle-on-icon">
+            <span class="users-icon fa-4x"></span>
+        </div>
+        <div class="presentation-text center-align-text">
+            <h3>Connect</h3>
+            <p>
+                Meet dedicated mentors and mentees and help build flourishing learning communities on a local
+                and global scale
+            </p>
+        </div>
+    </div>
+    <div class="circle-on-icon bottom-icon">
+        <span class="knowledge-icon fa-4x"></span>
+    </div>
+    <div class="presentation-text center-align-text">
+        <h3>Document your learning</h3>
+        <p>Keep track and expand your credentials as you receive documentation for the skills you acquire</p>
+    </div>
+</div>

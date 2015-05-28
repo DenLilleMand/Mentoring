@@ -1,0 +1,238 @@
+﻿@using Microsoft.AspNet.Identity
+@model Mentor.ViewModels.ProgramViewModel
+@{
+    ViewBag.Title = "Program";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="jumbotron">
+                <h1>@Model.Program.Name</h1>
+                <p>
+                    Your a member!
+                    <div>
+                        Mentee: @Model.IsMentee
+                    </div>
+                    <div>
+                        Mentor: @Model.IsMentor
+                    </div>
+                    <div>
+                        Admin: @Model.IsAdmin
+                    </div>
+                </p>
+            </div>
+            @* Chat program*@
+            <h2 class="label label-primary"> Live chat</h2>
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-md-8 border">
+                        <div class="row border">
+                            <div class="panel-body">
+                                <ul class="chat" id="collective-chat" data-bind="foreach: messages">
+                                    <li class="left clearfix">
+                                        <span class="chat-img pull-left">
+                                            <img src="http://placehold.it/50/55C1E7/fff&text=R" alt="User Avatar" class="img-circle" />
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <strong class="primary-font" data-bind="text: FullName"> </strong>
+                                                <small class="pull-right text-muted">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                    <span data-bind="text: Date">
+
+
+                                                    </span>
+                                                </small>
+                                            </div>
+                                            <p data-bind="html: Message">
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="input-group">
+                                <input id="text" type="text" class="form-control input-sm btn-input" placeholder="Type your message here..." />
+                                <span class="input-group-btn">
+                                    <button id="sendmessage" class="btn btn-warning btn-sm">
+                                        Send
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 border">
+                        <ul id="users" class="list-group" data-bind="foreach: users">
+                            <li class="list-group-item">
+                                <span data-bind="text: firstName"></span>
+                                <span data-bind="text: lastName"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @* Calendar*@
+            <h2 class="label label-primary"> Upcomeing sessions</h2>
+            <div class="jumbotron">
+                <div id="calendar">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>Mentors</h3>
+                    <ul class="list-group">
+                        @foreach (var item in Model.Program.Mentors)
+                        {
+                            <li class="list-group-item"> @item.FirstName @item.LastName  </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-xs-6">
+                    <h3>Mentees</h3>
+                    <ul class="list-group">
+                        @foreach (var item in Model.Program.Mentee)
+                        {
+                            <li class="list-group-item"> @item.FirstName @item.LastName  </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section FullCalendar {
+    <link rel="stylesheet" href="~/Content/fullcalendar.css" />
+    <link href="~/Content/css/program.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/fullcalendar.js"></script>
+    <script>
+        $(document).ready(function () {
+            var calendar = $('#calendar');
+            calendar.fullCalendar({
+                defaultDate: '2014-09-12',
+                editable: true,
+                eventLimit: true
+            });
+        });
+    </script>
+}
+
+@section SignalR {
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/Scripts/custom/userAndChatstate.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+    $(function() {
+        var chatViewModel = new userAndChatstate.ChatViewModel;
+        var usersViewModel = new userAndChatstate.UsersViewModel;
+        console.log(chatViewModel);
+        console.log(usersViewModel);
+        console.log(@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
+        var currentUser = new userAndChatstate.User(@Html.Raw(Json.Encode(@Model.CurrentUser.Id)), @Html.Raw(Json.Encode(@Model.CurrentUser.FirstName)), @Html.Raw(Json.Encode(@Model.CurrentUser.LastName)));
+
+        var chatHub = $.connection.programChatHub;
+        /*chatHub.id = currentUser.id;*/
+        console.log('currentuser:');
+        console.log(currentUser);
+        console.log("connect id(user ID) but thats how JS works??");
+        console.log(chatHub.id);
+        chatHub.client.onMessageReceived = function(programMessage) {
+            var programMessageJson = $.parseJSON(programMessage);
+            console.log('program message:');
+            console.log(programMessageJson);
+            chatViewModel.messages.push(programMessageJson);
+        };
+
+        chatHub.client.leaves = function(userId, firstName, lastName) {
+            var disconnectedUser = new userAndChatstate.User(userId, firstName, lastName);
+            usersViewModel.customRemove(disconnectedUser);
+            console.log('leave was called');
+        }
+
+        chatHub.client.joins = function(user) {
+            var connectedUser = new userAndChatstate.User(user.Id, user.FirstName, user.LastName);
+            usersViewModel.users.push(connectedUser);
+            console.log('joins was called');
+        }
+
+
+        function sendMessage() {
+            var message = $("#text").val();
+            if (message !== "" && message !== null) {
+                chatHub.server.send(message, @Html.Raw(Json.Encode(@Model.Program.Id)), @Html.Raw(Json.Encode(@Model.CurrentUser.Id))).done(function() {
+                    $('#text').val('').focus();
+                }).fail(function(e) {
+                    console.log(e);
+                });
+            }
+        }
+
+        function retrieveMessageHistory() {
+            chatHub.server.retrieveProgramMessagesAsJson(@Html.Raw(Json.Encode(@Model.Program.Id)))
+                    .done(function(programMessagesAsJson) {
+                        ko.utils.arrayForEach(programMessagesAsJson, function(item) {
+                            chatViewModel.messages.push(new userAndChatstate.ProgramMessage(item.Message, item.FullName, item.Date));
+                        });
+
+                    });
+            };
+
+            $('#sendmessage').click(function() {
+                sendMessage();
+                /*                $("#collective-chat").animate({
+                                    scrollTop: $("#collective-chat")[0].scrollHeight - $("#collective-chat").height()
+                                }, 1000, function() {
+
+                                });*/
+            });
+
+
+            $('#text').keypress(function(e) {
+                if (e.which === 13) {
+                    sendMessage();
+                }
+            });
+
+            $('#text').focus();
+
+            $.connection.hub.start().done(function() {
+                retrieveMessageHistory();
+                console.log("calling get connected mentors");
+                chatHub.server.getConnectedMentors().done(function(connectedMentorUsers) {
+                    console.log(connectedMentorUsers);
+                    ko.utils.arrayForEach(conntectedMentorsUsersAsJson, function(item) {
+                        usersViewModel.users.push(new userAndChatstate.User(item.Id, item.FirstName, item.LastName));
+                    });
+                });
+                console.log("calling get connected mentees");
+                chatHub.server.getConnectedMentees()
+                    .done(function(connectedMenteeUsers) {
+                        console.log(connectedMenteeUsers);
+                        ko.utils.arrayForEach(connectedMenteeUsers, function(item) {
+                            usersViewModel.users.push(new userAndChatstate.User(item.Id, item.FirstName, item.LastName));
+                        });
+                        console.log('calling server.joined');
+
+                        console.log('calling server.Joined() so we should see our selfes on the list?');
+
+                        console.log('calling retrieve message history:');
+                    });
+                chatHub.server.joined(@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
+                ko.applyBindings(usersViewModel, $("#users")[0]);
+                ko.applyBindings(chatViewModel, $("#collective-chat")[0]);
+
+            });
+
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+        });
+    </script>
+}

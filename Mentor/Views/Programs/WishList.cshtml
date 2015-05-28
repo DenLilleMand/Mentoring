@@ -1,0 +1,156 @@
+﻿@using Mentor.Models
+@using Microsoft.Ajax.Utilities
+@model Mentor.ViewModels.WishListViewModel
+@{
+    ViewBag.Title = "WishList";
+}
+
+<div id="side-panel">
+    <button class="btn btn-primary full-width" data-toggle="modal" data-target="#myModal"> Create wish! </button>
+</div>
+<div id="center-panel" class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <ul class="wishList" id="wishlistprograms" data-bind="foreach:SortedPrograms">
+                <li>
+                    <!--class="vertical-align">-->
+                    <div class="imageDiv wisListItem">
+                        <img src="http://lorempixum.com/100/100/nature/1" class="col-md-2"/>
+                        <div class="info col-md-3">
+                            <h3 data-bind="text:name"></h3>
+                            <h4 data-bind="text:creator"></h4>
+                            <p data-bind="text:reason"></p>
+                        </div>
+                    </div>
+                    <div class="vote-wrapper">
+                        <div class="vote circle">
+                            <div class="increment up" data-bind="click: upvote(), css: { upvoted: voted} "></div>
+                            <div class="increment down" data-bind="click: downvote(), css: { downvoted: !voted()}"></div>
+                            <div class="count">
+                                <span data-bind="text:votes" class="countNow"></span>
+                                /
+                                <span data-bind="text:acceptCriteria" class="total"></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Create a wish!</h4>
+            </div>
+            @using (Html.BeginForm("CreateWish", "Programs", FormMethod.Post, new { @class = "center-align form-group", role = "form", @id = "formId" }))
+            {
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    <div class="center-div rounded-content center-horizontal">
+                        <div class="row">
+                            <div class="form-group col-md-10 center-horizontal input-margin">
+                                @Html.ValidationSummary("", new {@class = "text-danger"})
+                                @Html.LabelFor(m => m.Description, "Describe your program")
+                                @Html.TextAreaFor(m => m.Description, new {@id = "message", @class = "form-control", @placeholder = "", @rows = 5, @Style = "resize: none;"})
+                            </div>
+                        </div>
+@{
+                    List<SelectListItem> interestItems = new List<SelectListItem>();
+                    Model.UndefinedInterests.ForEach(delegate(Interest interest)
+                    {
+                        interestItems.Add(new SelectListItem
+                        {
+                            Text = interest.Name,
+                            Value = interest.Name
+                        });
+                    });
+                    List<SelectListItem> acceptCriteria = new List<SelectListItem>();
+
+                    for (int i = 1; i <= 99; i++)
+                    {
+                        acceptCriteria.Add(new SelectListItem()
+                        {
+                            Text = i+"",
+                            Value = i+""
+                        });
+                    }
+                    Model.UndefinedInterests.ForEach(delegate(Interest interest)
+                    {
+                        interestItems.Add(new SelectListItem
+                        {
+                            Text = interest.Name,
+                            Value = interest.Name
+                        });
+                    });
+                    
+                    }
+                        <div class="row form-group">
+                            @Html.DropDownListFor(model => model.Name, interestItems, "-- Select interest --")
+                        </div>
+                        <div class="row form-group">
+                            @Html.DropDownListFor(model => model.AcceptCriteria, acceptCriteria, "-- Select accept criteria --")
+                        </div>
+                       
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-bind="click: submitNewProgram()">Send</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section WishList {
+
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        @Styles.Render("~/Content/css/WishList.css")
+        @Scripts.Render("~/scripts/custom/WishListState.js")
+
+        <script>
+            $(document).ready(function() {
+                var wishListViewModel = new WishListState.WishListViewModel();
+
+                var wishListHub = $.connection.wishListHub;
+
+                function retrieveAllWishListPrograms() {
+                    wishListHub.server.retrieveAllWishListPrograms().done(function(wishListPrograms) {
+                        ko.utils.arrayForEach(wishListPrograms, function(program) {
+                            wishListPrograms.Programs.push(new wishListViewModel.Program(program));
+                        });
+                    });
+                }
+
+                
+
+                function vote(program) {
+                    wishListHub.server.vote(program,@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
+                }
+
+                //Rimelig svært problem lige nu.
+                function createProgram(program) {
+                    wishListHub.server.addProgram(program,@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
+                }
+               
+
+                $.connection.hub.start().done(function() {
+
+                    ko.applyBindings(wishListViewModel, $("#wishlistprograms")[0]);
+                    retrieveAllWishListPrograms();
+                });
+
+            });
+        </script>
+    }

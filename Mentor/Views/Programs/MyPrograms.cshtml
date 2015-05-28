@@ -1,0 +1,141 @@
+﻿@using System.Web.UI.WebControls
+@model Mentor.ViewModels.MyProgramsViewModel
+
+@{
+    Layout = "~/Views/Shared/_LoggedInHeader.cshtml";
+}
+
+@Styles.Render("~/Content/css/MyPrograms.css")
+
+<div class="page-wrapper">
+    <div class="container">
+        <div class="row">
+            <h4 class="title">
+                Your programs
+            </h4>
+        </div>
+        <div class="item active"></div>
+        <div class="row">
+            <ul id="my_programs" class="col-md-12" data-bind="foreach: Programs">
+                <li class="col-md-3 programDiv col-centered">
+                    <div class="thumbnail imageDiv">
+                        <a data-bind="attr:{href:programLink}">
+                            <img data-bind="attr: { 'src': '@Url.Action("GetPicture")/' + ID }" class=""/>
+                            <h3 class="title-programs" data-bind="text:Name"> </h3>
+                        </a>
+                       
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <h4 class="title">
+                Suggested Programs
+            </h4>
+        </div>
+        <div class="item active"></div>
+        <div class="row">
+            <ul id="my_surgestions" class="col-md-12" data-bind="foreach: SurgestionPrograms">
+                <li class="col-md-3 programDiv col-centered">
+                    <div class="thumbnail imageDiv">
+                        <a data-bind="attr:{href:programLink}">
+                            <img data-bind="attr:{src:imageUrl}">
+
+                        </a>
+                        <h3 class="title-programs" data-bind="text: Name">   </h3>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+@section MyProgramsScript {
+
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @Styles.Render("~/Content/css/MyPrograms.css")
+    @Scripts.Render("~/scripts/custom/MyProgramState.js");
+    @Styles.Render("~/content/blocksystem/bootstrap-block-grid.css");
+
+
+    <script>
+        $(document).ready(function() {
+            var myPrograms = new MyProgramState.Programs;
+            var ourSurgestions = new MyProgramState.OurSurgestions;
+
+            var myProgramsHub = $.connection.myProgramsHub;
+
+            function retrieveMentorPrograms() {
+                console.log('retrieveMentorPrograms');
+                console.log(myProgramsHub);
+                myProgramsHub.server.retrieveAllMentorPrograms(@Html.Raw(Json.Encode(@Model.CurrentUser.Id)))
+                    .done(function(mentorPrograms) {
+                        console.log(mentorPrograms);
+                        ko.utils.arrayForEach(mentorPrograms, function(item) {
+                            myPrograms.Programs.push(new MyProgramState.Program(item.Id, item.Name));
+                        });
+                    });
+            };
+
+            function programWasAdded(id, name) {
+                myPrograms.Programs.push(new MyProgramState.Program(id, name));
+            }
+       
+
+        function retrieveMenteePrograms() {
+            console.log('retrieveMenteePrograms');
+            myProgramsHub.server.retrieveAllMenteePrograms(@Html.Raw(Json.Encode(@Model.CurrentUser.Id)))
+                .done(function(menteePrograms) {
+                    console.log(menteePrograms);
+                    ko.utils.arrayForEach(menteePrograms, function(item) {
+                        myPrograms.Programs.push(new MyProgramState.Program(item.Id, item.Name));
+                    });
+                });
+        };
+
+        function retrieveSurgestedPrograms() {
+            console.log('retrieveSurgestedPrograms');
+            myProgramsHub.server.retrieveAllSurgestedPrograms(@Html.Raw(Json.Encode(@Model.CurrentUser.Id)))
+                .done(function(surgestedPrograms) {
+                    console.log(surgestedPrograms);
+                    ko.utils.arrayForEach(surgestedPrograms, function(item) {
+                        ourSurgestions.SurgestionPrograms.push(new MyProgramState.Program(item.Id, item.Name));
+                    });
+                });
+        };
+
+
+        $.connection.hub.start().done(function() {
+            console.log('we reach here');
+
+            ko.applyBindings(myPrograms, $("#my_programs")[0]);
+            ko.applyBindings(ourSurgestions, $("#my_surgestions")[0]);
+
+            retrieveMentorPrograms();
+            retrieveMenteePrograms();
+            retrieveSurgestedPrograms();
+        });
+
+    });
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+

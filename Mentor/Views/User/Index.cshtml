@@ -1,0 +1,154 @@
+﻿@model Mentor.Models.User
+
+<head lang="en">
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1">
+    <title>Welcome to my WeYouMentor</title>
+</head>
+
+    <div style="margin-left: 10%; margin-right: 10%;">
+        <div class="profileClass" style="background-color: white">
+            <div  style="margin: 5px;">
+                <img  src="~/pictures/b.png" height="160" width="160" class="img-circle" style="display: block;margin-left: auto;margin-right: auto; padding-top: 20px;" />
+
+                <h3 style="text-align: center; margin: 30px;">@Model.FirstName @Model.LastName</h3>
+                <div style="text-align: center">
+                    <a style="text-align: center;" class="btn btn-social-icon btn-lg btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                    <a style="text-align: center;" class="btn btn-social-icon btn-lg btn-twitter"><i class="fa fa-twitter"></i></a>
+                    <a style="text-align: center;" class="btn btn-social-icon btn-lg btn-facebook"><i class="fa fa-facebook"></i></a>
+                    <a style="text-align: center;" class="btn btn-social-icon btn-lg btn-instagram"><i class="fa fa-instagram"></i></a>
+                </div>
+                <div style="background-color: transparent; overflow: auto;">
+                    <p style="text-align: left">Mentor Rating</p>
+                    <p style="text-align: left;">Possitive feedback: 99.2%</p>
+                    <a href="">
+                        <p style="text-align: left">See other peoples reviews</p>
+                    </a>
+                </div>
+                <br />
+                <button style="width: 100px; margin: 0 auto;">Message</button>
+
+            </div>
+        </div>
+        <div  class="profileMentor">
+            <div style="float: left; width: 50%; text-align: left;height: 500px; overflow: auto;background-color: white">
+                <h5 style="margin-left: 10px;" class="mentorPicHeaderh3">Mentor Offers</h5>
+
+                @foreach (var mentorInterest in @Model.MentorInterests)
+                {
+                    <div class="containerPic" style="display: inline-block">
+                        <a href="">
+                            <img src="~/pictures/480px-Soccer_ball.svg.png" alt="" />
+                        </a>
+                        <p style="text-align: center" class="textBoxHeader">@mentorInterest.Name</p>
+                    </div>
+
+
+
+
+                }
+
+                <h5 style="margin-left: 10px; margin-top: 50px;" class="mentorPicHeaderh3">Mentee Interrest</h5>
+
+
+
+                @foreach (var menteeInterest in @Model.MenteeInterests)
+                {
+                    <div class="containerPic" style="display: inline-block">
+                        <a href="">
+                            <img src="~/pictures/480px-Soccer_ball.svg.png" alt="" />
+                        </a>
+                        <p style="text-align: center" class="textBoxHeader">@menteeInterest.Name</p>
+                    </div>
+
+
+                }
+
+            </div>
+            <div style="float: right; width: 50%; height: 500px; overflow: auto;background-color: white">
+                <h3 style="text-align: center" class="mentorPicHeaderh3">Current Mentor Programs</h3>
+
+
+                @foreach (var mentorPrograms in @Model.MentorPrograms)
+                {
+                    <div class="containerPic" style="display: inline-block">
+                        <a href="/Programs/index/@mentorPrograms.Id">
+                            <img src="~/pictures/480px-Soccer_ball.svg.png" alt="" />
+                        </a>
+                        <p class="textBoxHeader">@mentorPrograms.Name</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="profileText">
+
+            <h4 style="padding: 5px; color: #000000;">Profile Text</h4>
+            <p style="padding: 5px; color: #000000;">
+                @Model.ProfileText;
+            </p>
+
+            <p style="padding: 5px; color: #000000;">
+            </p>
+            <p style="padding: 5px; color: #000000;">
+            </p>
+
+        </div>
+
+    </div>
+ 
+
+
+    <script>
+        $(document).ready(function () {
+
+
+            $('.containerPic').on('click', function () {
+                var info = $(this).children('.textBoxHeader').text();
+                alert(info);
+
+                //<h4 style="padding: 5px; color: #000000;">Profile MediaTypeNames.Text</h4>
+                // <p style="padding: 5px; color: #000000;">;</p>
+
+
+            });
+            //we want to get the ID of the USER
+            //This is the searchInput Click
+            //to retrive the ID so we can send it to the
+            //persons "page"
+            $('a.outputSearch').on('click', function () {
+                var inputId = $(this).text();
+                alert(inputId);
+            });
+
+
+            //we want to get the ID of the USER
+            //This is the mentor programs Click
+            //to retrive the ID so we can send it to the
+            //mentor Programs "page"
+            $("tr.mentorPrograms").click(function () {
+                alert($(this).text());
+            });
+            $(".mentorImageDiv").hover(function () {
+
+                $(this).children('.textBoxHeader').hide();
+
+
+            });
+            $('.mentorImageDiv').mouseleave(function () {
+                $(".mentorImageDiv").children('.textBoxHeader').show();
+            });
+            //The function thats open the messages
+
+
+        });
+
+    </script>
+
