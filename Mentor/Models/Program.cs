@@ -26,10 +26,11 @@ namespace Mentor.Models
             Notifications = new HashSet<Notification>();
         }
 
-        public Program(Interest interest, User creator, string description)
+        public Program(Interest interest, User creator, string description,string name)
         {
             Interest = interest;
             Creator = creator;
+            Name = name;
             Description = description;
             Mentors = new HashSet<User>();
             Mentee = new HashSet<User>();

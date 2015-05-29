@@ -19,6 +19,7 @@ WishListState.Program = function (program) {
     var self = this;
     self.id = program.Id;
     self.name = program.Name;
+    self.reason = program.Reason;
     self.creator = program.Creator;
     self.interest = program.Interest;
     self.description = program.Description;

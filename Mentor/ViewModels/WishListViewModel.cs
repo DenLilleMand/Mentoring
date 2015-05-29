@@ -12,8 +12,9 @@ namespace Mentor.ViewModels
         public ICollection<Interest> UndefinedInterests { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Reason { get; set; }
         public string Description { get; set; }
         public string Interest { get; set; }
-        public string AcceptCriteria { get; set; }
+        public int AcceptCriteria { get; set; }
     }
 }

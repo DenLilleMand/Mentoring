@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Mentor.Models;
+using Microsoft.AspNet.SignalR;
 
 namespace Mentor.hubs
 {
@@ -30,10 +31,9 @@ namespace Mentor.hubs
                     _instance = new WishListInMemoryRepository();
                 }
                 return _instance;
-            
         }
 
-        public void AddProgram(WishListProgramJson program, int userId)
+        public void AddProgram(WishListProgramJson program, int userId, IHubContext context)
         {
             lock (_wishListVoteingDictionary)
             {
@@ -45,6 +45,7 @@ namespace Mentor.hubs
                     lock (_wishListProgramDictionary)
                     {
                         _wishListProgramDictionary.Add(program.Id, program);
+                        context.Clients.All.programWasAdded(program);
                     }
                     
                 }
@@ -55,7 +56,7 @@ namespace Mentor.hubs
                         "the program input was:" + program);
                 }
             }
-            Vote(program, userId);
+            //Vote(program, userId);
         }
 
         public ICollection<WishListProgramJson> GetAllWishListPrograms()

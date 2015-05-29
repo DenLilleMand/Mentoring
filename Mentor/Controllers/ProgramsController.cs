@@ -26,8 +26,8 @@ namespace Mentor.Controllers
     public class ProgramsController : Controller
     {
         private readonly IProgramRepository _programRepository;
-        private readonly UserRepository _userRepository;
-        private readonly InterestRepository _interestRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IInterestRepository _interestRepository;
 
         /* 
          * Reasoning behind our Controller setup, this comment is general for all our controllers and their logic.
@@ -48,8 +48,8 @@ namespace Mentor.Controllers
          * allows us to implement kind of badly thought out design, but it works. 
          */
 
-        public ProgramsController(IProgramRepository programRepository, UserRepository userRepository,
-            InterestRepository interestRepository)
+        public ProgramsController(IProgramRepository programRepository, IUserRepository userRepository,
+            IInterestRepository interestRepository)
         {
             _programRepository = programRepository;
             _userRepository = userRepository;
@@ -60,6 +60,10 @@ namespace Mentor.Controllers
         // GET: Programs
         public ActionResult Index(int? id)
         {
+            //relativt grim implementation, hvis man skulle arbejde videre med det her program,
+            //er det klart at jeg ville se nærmere på vores nuværende struktur hvor programs og Users
+            //har 3 mange-til-mange forhold baseret på mentor/admin/mentee, det er blevet rigtig grimt,
+            //det er klart at man ville kigge på entities rolle system, og se om man kan bygge videre på det.
             if (id.HasValue)
             {
                 ProgramViewModel programViewModel = new ProgramViewModel();
@@ -238,14 +242,15 @@ namespace Mentor.Controllers
             //skal have lavet en interest
             Interest interest = new Interest(model.Interest);
             //skal have fat i currentUser,
-            User currentUser = _userRepository.Read(User.Identity.GetUserId<int>());
+            int userId = User.Identity.GetUserId<int>();
+            User currentUser = _userRepository.Read(userId);
             //skal have converteret vores program til et rigtigt program
-            Program program = new Program(interest, currentUser,model.Description);
+            Program program = new Program(interest, currentUser,model.Description,model.Name);
             int newId = _programRepository.Create(program);
             //skal ligge det ind i databasen, for at skaffe det nye Id, så returnere vi en ViewModel
             //måske burde vi kalde dette med AJAX, sådan at vi har adgang til callback program, til at indsætte. 
             var context = GlobalHost.ConnectionManager.GetHubContext<MyProgramsHub>();
-            var serializedViewModel = JsonConvert.SerializeObject(new WishListViewModel()
+/*            var serializedViewModel = JsonConvert.SerializeObject(new WishListViewModel()
             {
                 Id = newId,
                 Interest = model.Interest,
@@ -255,9 +260,16 @@ namespace Mentor.Controllers
             }, Formatting.None, new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-/*            WishListInMemoryRepository.GetInstance().AddProgram();
-            context.Clients.All.programWasAdded(serializedViewModel);*/
+            });*/
+            WishListProgramJson wishListprogramJson = new WishListProgramJson();
+            wishListprogramJson.Id = newId;
+            wishListprogramJson.Name = program.Name;
+            wishListprogramJson.CreatorId = userId;
+            wishListprogramJson.Creator = currentUser.FirstName + " " + currentUser.LastName;
+            wishListprogramJson.Description = program.Description;
+            wishListprogramJson.AcceptCriteria = model.AcceptCriteria;
+            wishListprogramJson.Reason = model.Reason;
+            WishListInMemoryRepository.GetInstance().AddProgram(wishListprogramJson, userId,context);
             return RedirectToAction("WishList");
 
         }

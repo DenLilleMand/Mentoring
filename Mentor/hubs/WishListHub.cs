@@ -22,13 +22,6 @@ namespace Mentor.hubs
         {
             return _wishListInMemoryRepository.GetAllWishListPrograms();
         } 
-
-
-        //new Program
-        public void AddProgram(WishListProgramJson program, int userId)
-        {
-            _wishListInMemoryRepository.AddProgram(program, userId);
-        }
         
     }
 }

@@ -53,48 +53,55 @@
                     <div class="center-div rounded-content center-horizontal">
                         <div class="row">
                             <div class="form-group col-md-10 center-horizontal input-margin">
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                @Html.LabelFor(m => m.Reason, "What is the reason for creating this program?")
+                                @Html.TextAreaFor(m => m.Reason, new { @id = "message", @class = "form-control", @placeholder = "", @rows = 5, @Style = "resize: none;" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-10 center-horizontal input-margin">
                                 @Html.ValidationSummary("", new {@class = "text-danger"})
                                 @Html.LabelFor(m => m.Description, "Describe your program")
                                 @Html.TextAreaFor(m => m.Description, new {@id = "message", @class = "form-control", @placeholder = "", @rows = 5, @Style = "resize: none;"})
                             </div>
                         </div>
-@{
-                    List<SelectListItem> interestItems = new List<SelectListItem>();
-                    Model.UndefinedInterests.ForEach(delegate(Interest interest)
-                    {
-                        interestItems.Add(new SelectListItem
-                        {
-                            Text = interest.Name,
-                            Value = interest.Name
-                        });
-                    });
-                    List<SelectListItem> acceptCriteria = new List<SelectListItem>();
+                        @{
+                            List<SelectListItem> interestItems = new List<SelectListItem>();
+                            Model.UndefinedInterests.ForEach(delegate(Interest interest)
+                            {
+                                interestItems.Add(new SelectListItem
+                                {
+                                    Text = interest.Name,
+                                    Value = interest.Name
+                                });
+                            });
+                            List<SelectListItem> acceptCriteria = new List<SelectListItem>();
 
-                    for (int i = 1; i <= 99; i++)
-                    {
-                        acceptCriteria.Add(new SelectListItem()
-                        {
-                            Text = i+"",
-                            Value = i+""
-                        });
-                    }
-                    Model.UndefinedInterests.ForEach(delegate(Interest interest)
-                    {
-                        interestItems.Add(new SelectListItem
-                        {
-                            Text = interest.Name,
-                            Value = interest.Name
-                        });
-                    });
-                    
-                    }
+                            for (int i = 1; i <= 99; i++)
+                            {
+                                acceptCriteria.Add(new SelectListItem()
+                                {
+                                    Text = i + "",
+                                    Value = i + ""
+                                });
+                            }
+                            Model.UndefinedInterests.ForEach(delegate(Interest interest)
+                            {
+                                interestItems.Add(new SelectListItem
+                                {
+                                    Text = interest.Name,
+                                    Value = interest.Name
+                                });
+                            });
+
+                        }
                         <div class="row form-group">
                             @Html.DropDownListFor(model => model.Name, interestItems, "-- Select interest --")
                         </div>
                         <div class="row form-group">
                             @Html.DropDownListFor(model => model.AcceptCriteria, acceptCriteria, "-- Select accept criteria --")
                         </div>
-                       
+
                     </div>
 
                 </div>
@@ -122,16 +129,21 @@
         <script>
             $(document).ready(function() {
                 var wishListViewModel = new WishListState.WishListViewModel();
+                console.log(wishListViewModel);
 
                 var wishListHub = $.connection.wishListHub;
-
+                console.log(wishListHub);
                 function retrieveAllWishListPrograms() {
                     wishListHub.server.retrieveAllWishListPrograms().done(function(wishListPrograms) {
+                        console.log(wishListPrograms);
                         ko.utils.arrayForEach(wishListPrograms, function(program) {
-                            wishListPrograms.Programs.push(new wishListViewModel.Program(program));
+                            console.log(program);
+                            console.log(new WishListState.Program(program));
+                            wishListViewModel.Programs.push(new WishListState.Program(program));
                         });
                     });
-                }
+                };
+               
 
                 
 

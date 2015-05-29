@@ -8,7 +8,7 @@ using Mentor.Models.Repositories.Interfaces;
 
 namespace Mentor.Models.Repositories.ConcreteImplementation
 {
-    public class UserRepository : AbstractIRepository<User>
+    public class UserRepository : AbstractIRepository<User>, IUserRepository
     {
         public UserRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext) { }
        
