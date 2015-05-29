@@ -77,16 +77,16 @@ namespace Mentor.Models
     public class ApplicationDbContext :
         IdentityDbContext<User, CustomRole, int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
-        public ApplicationDbContext() : base("DefaultConnection")
-        {
-            // Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>("DefaultConnection"));
-            /*Disable initializer if we feel like it at some point:  */
-            /*Database.SetInitializer<ApplicationDbContext>(null); */
-        }
-
         private DbSet<Interest> Interests { get; set; }
         private DbSet<Program> Programs { get; set; }
 
+
+        public ApplicationDbContext() : base("DefaultConnection")
+        {
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>("DefaultConnection"));
+            /*Disable initializer if we feel like it at some point:  */
+            /*Database.SetInitializer<ApplicationDbContext>(null); */
+        }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
