@@ -23,6 +23,7 @@
 }
 
 
+
 /*Give some distance to the search icon from the search box*/
 i.fa.fa-search {
     margin-right: 1em;
@@ -77,4 +78,8 @@ i.fa.fa-search {
 
 a#exploreLink {
     padding: 0;
+}
+
+#width100 {
+    width: 100%;
 }
