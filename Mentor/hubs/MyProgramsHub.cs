@@ -22,6 +22,11 @@ namespace Mentor.hubs
                 _programRepository = programRepository;
             }
 
+        public void Vote(WishListProgramJson program) {
+            Debug.WriteLine("Received the vote, with program:" + program);
+            
+        }
+
 
 
             public ICollection<ProgramAsJson> RetrieveAllMentorPrograms(string userId)

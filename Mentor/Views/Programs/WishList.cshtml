@@ -101,9 +101,7 @@
                         <div class="row form-group">
                             @Html.DropDownListFor(model => model.AcceptCriteria, acceptCriteria, "-- Select accept criteria --")
                         </div>
-
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -133,6 +131,8 @@
 
                 var wishListHub = $.connection.wishListHub;
                 console.log(wishListHub);
+                
+                //Client side functions to call the server.
                 function retrieveAllWishListPrograms() {
                     wishListHub.server.retrieveAllWishListPrograms().done(function(wishListPrograms) {
                         console.log(wishListPrograms);
@@ -144,18 +144,27 @@
                     });
                 };
                
-
-                
-
                 function vote(program) {
                     wishListHub.server.vote(program,@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
                 }
 
-                //Rimelig svært problem lige nu.
                 function createProgram(program) {
                     wishListHub.server.addProgram(program,@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
                 }
-               
+
+
+                function receiveVote(programId, vote) {
+                    console.log("firstMatch is being called with programId:" + programId + ". with the vote:" + vote);
+                    if (!programId) {
+                        return null;
+                    } else {
+                        return ko.utils.arrayFirst(wishListViewModel.Programs, function(item) {
+                            console.log("searching for item with id:" + programId + ". Comparing atm with " + item.Id);
+                            var program =  ko.utils.stringStartsWith(item.id, programId);
+                            console.log("this is the resulting program:" + program);
+                        });
+                    }
+                };
 
                 $.connection.hub.start().done(function() {
 

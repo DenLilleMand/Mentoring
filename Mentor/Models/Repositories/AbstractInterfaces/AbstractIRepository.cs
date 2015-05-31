@@ -8,7 +8,6 @@ using Mentor.Models.Repositories.Interfaces;
 
 namespace Mentor.Models.Repositories.AbstractInterfaces
 {
-   /* public partial class GridMastercontrol<TEntity> : UserControl where TEntity : class*/
     public abstract class AbstractIRepository<TEntity> : IRepository<TEntity> where TEntity : class 
     {
         protected readonly ApplicationDbContext ApplicationDbContext;
