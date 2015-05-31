@@ -14,75 +14,126 @@
     @Scripts.Render("~/Scripts/bootstrap.min.js")
     @Scripts.Render("~/bundles/signalr")
     <script src="@Url.Content("~/Scripts/knockout-3.3.0.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/SearchFunction.js")" type="text/javascript"></script>
-
-
+    <script src="@Url.Content("~/Scripts/searchFunction.js")" type="text/javascript"></script>
+    <script src="~/Scripts/addNoti.js"></script>
+    <link href="~/Content/css/preloader.css" rel="stylesheet" />
 </head>
 <body>
-<div id="header">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- vores logo i øvre venstre hjørne -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <a id="logo" href="/" class="nav-bar-item "></a>
-            </div>
-            <div class="nav-bar-item col-md-2 col-sm-2 col-xs-3 searchBar">
-                <i class="fa fa-search"></i>
+    <div id="header">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- vores logo i øvre venstre hjørne -->
+                <div class="col-md-2 col-sm-2 col-xs-4">
+                    <a id="logo" href="/" class="nav-bar-item "></a>
+                </div>
+                <div class="nav-bar-item col-md-2 col-sm-2 col-xs-3 searchBar">
+                    <i class="fa fa-search"></i>
 
-                <input id="inputSearch" class="no-border" placeholder="Search" type="text" data-toggle="dropdown" role="button" aria-expanded="false" onkeyup="searchForThings()" autocomplete="off">
+                    <input id="inputSearch" class="no-border" placeholder="Search" type="text" data-toggle="dropdown" role="button" aria-expanded="false" onkeyup=" searchForThings() " autocomplete="off" name="input">
 
-                <ul class="dropdown-menu searchField" role="menu" style="min-width: 350px;">
-                    <div>
-                        <li style="margin-left: 10px;" class="searchHeaders Persons">Persons</li>
+                    <ul class="dropdown-menu searchField" role="menu" style="min-width: 350px;">
 
-                        <li>
-                            <p id="noResultPerson" class="noResult">No searchresult</p>
-                        </li>
-                    </div>
-                    <div style="border-top: thin ridge black; margin: 10px;">
-                        <li style="" class="searchHeaders Interest">Mentor Programs</li>
-                        <li>
-                            <p id="noResultMentorPrograms" class="noResult">No searchresult</p>
-                        </li>
-                    </div>
-                    <li style="background-color: lightgray; height: 40px;"><a href="#" id="searchResult" style="text-align: center; color: #3b5998; padding: 15px; font-size: x-small">Se flere resultater for:</a></li>
-                </ul>
-            </div>
-            @Html.ActionLink("Explore", "Explore", "Home", routeValues: null, htmlAttributes: new { @class = "nav-bar-item col-md-1 col-sm-2 hidden-xs", id = "exploreLink" })
-            @Html.ActionLink("Help", "Help", "Home", routeValues: null, htmlAttributes: new { @class = " nav-bar-item col-md-1 col-xs-1 pull-right", id = "helpLink" })
-            <div class="nav-bar-item pull-right col-sm-1 hidden-xs">
-                <a id="envelopeLink" href="/">
-                    <i class="fa fa-envelope-o fa-lg"></i>
-                </a>
-            </div>
-            <div class="nav-bar-item pull-right col-sm-1 hidden-xs">
-                <a id="notificationLink" href="/">
-                    <i class="fa fa-star-o fa-lg"></i>
-                </a>
-            </div>
-            <div class="nav-bar-item col-md-1 col-sx-3 dropdown pull-right">
-                <span id="first_name"> @{ Html.RenderAction("GetUserFirstName", "Utility");}</span>
-                <img src="~/Images/profileImg.jpg" width="30px" height="30px" class="profileImage" alt="This should have been your profile image" />
-                <span class="caret dropdown dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-                </span>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                    <li role="presentation"> @Html.ActionLink("Profile", "Index", "User", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" }) </li>
-                    <li role="presentation">@Html.ActionLink("My Programs", "MyPrograms", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                    <li role="presentation">@Html.ActionLink("Create Program", "CreateProgram", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                    <li role="presentation">@Html.ActionLink("Wishlist", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                    <li role="presentation">@Html.ActionLink("Inbox", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                    <li role="presentation">@Html.ActionLink("Notifications", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                    <li role="presentation">@Html.ActionLink("Log out", "LogOff", "Account", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
-                </ul>
-            </div>
+                        <div>
+                            
+                         <li style="margin-left: 10px;" class="searchHeaders Persons">Persons</li>
+
+                            <li>
+                                <p id="noResultPerson" class="noResult">No searchresult</p>
+                            </li>
+                        </div>
+                        <div style="border-top: thin ridge black; margin: 10px;">
+                            <li style="" class="searchHeaders Interest">Mentor Programs</li>
+                            <li>
+                                <p id="noResultMentorPrograms" class="noResult">No searchresult</p>
+                            </li>
+                        </div>
+
+                        <li style="background-color: lightgray; height: 40px;"><a href="#" id="searchResult" style="text-align: center; color: #3b5998; padding: 15px; font-size: x-small">Se flere resultater for:</a></li>
+
+                    </ul>
+                </div>
+                @Html.ActionLink("Explore", "Explore", "Home", routeValues: null, htmlAttributes: new { @class = "nav-bar-item col-md-1 col-sm-2 hidden-xs", id = "exploreLink" })
+                @Html.ActionLink("Help", "Help", "Home", routeValues: null, htmlAttributes: new { @class = " nav-bar-item col-md-1 col-xs-1 pull-right", id = "helpLink" })
+                <div class="nav-bar-item pull-right col-sm-1 hidden-xs">
+                    <a id="envelopeLink" onclick="addMessage() " href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="fa fa-envelope-o fa-lg"></i>
+                        <ul class="dropdown-menu" role="menu">
+                            <li style="width: 400px;" class="MessagesHeaders">Messages</li>
+
+                            <li>
+                                <a href="">
+                                    Matti Lund
+                                    <p> Jeg er en glad lille nisse</p>
+                                </a>
+
+                            </li>
+
+                        </ul>
+                    </a>
+                </div>
+
+
+                <div class="nav-bar-item pull-right col-sm-1 hidden-xs">
+                    <a id="notificationLink" href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="fa fa-star-o fa-lg"></i>
+                        <ul class="dropdown-menu" role="menu">
+                            <p style="width: 400px;" class="MessagesHeaders">Notifications</p>
+
+                            <li class="notiAdd">
+                                <a></a>
+                            </li>
+
+                        </ul>
+                    </a>
+                </div>
+                <div class="nav-bar-item col-md-1 col-sx-3 dropdown pull-right">
+                    <span id="first_name"> @{ Html.RenderAction("GetUserFirstName", "Utility");}</span>
+                    <img src="~/Images/profileImg.jpg" width="30px" height="30px" class="profileImage" alt="This should have been your profile image" />
+                    <span class="caret dropdown dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                    </span>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation"> @Html.ActionLink("Profile", "Index", "User", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" }) </li>
+                        <li role="presentation">@Html.ActionLink("My Programs", "MyPrograms", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                        <li role="presentation">@Html.ActionLink("Create Program", "CreateProgram", "Programs", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                        <li role="presentation">@Html.ActionLink("Wishlist", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                        <li role="presentation">@Html.ActionLink("Inbox", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                        <li role="presentation">@Html.ActionLink("Notifications", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                        <li role="presentation">@Html.ActionLink("Log out", "LogOff", "Account", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        @RenderBody()
-        </body>
-        @RenderSection("scripts", required: false)
-        @RenderSection("FullCalendar", required: false)
-        @RenderSection("SignalR", required: false)
-        @RenderSection("MyProgramsScript", required: false)
-        @RenderSection("WishList", required: false)
+
+
+
+
+    </div>
+    @RenderBody()
+
+    <script>
+
+        //
+        $('#searchResult').on('click', function () {
+            if ($("#inputSearch").val() !== "") {
+                //window.location.pathname = "/";
+
+                var form = $('<form id="more"action="/User/moreResult" method="get"</form>');
+                sessionStorage.setItem("input", $("#inputSearch").val());
+                form.submit();
+            }
+
+        });
+
+    </script>
+
+</body>
+
+
+@RenderSection("scripts", required: false)
+@RenderSection("FullCalendar", required: false)
+@RenderSection("SignalR", required: false)
+@RenderSection("MyProgramsScript", required: false)
+@RenderSection("WishList", required: false)
+
+
 </html>
