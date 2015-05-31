@@ -19,6 +19,7 @@
     <link href="~/Content/css/preloader.css" rel="stylesheet" />
 </head>
 <body>
+
     <div id="header">
         <div class="container-fluid">
             <div class="row">
@@ -34,8 +35,8 @@
                     <ul class="dropdown-menu searchField" role="menu" style="min-width: 350px;">
 
                         <div>
-                            
-                         <li style="margin-left: 10px;" class="searchHeaders Persons">Persons</li>
+
+                            <li style="margin-left: 10px;" class="searchHeaders Persons">Persons</li>
 
                             <li>
                                 <p id="noResultPerson" class="noResult">No searchresult</p>
@@ -99,10 +100,13 @@
                         <li role="presentation">@Html.ActionLink("Inbox", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
                         <li role="presentation">@Html.ActionLink("Notifications", "Help", "Home", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
                         <li role="presentation">@Html.ActionLink("Log out", "LogOff", "Account", routeValues: null, htmlAttributes: new { @class = "", id = "helpLink", tabindex = "-1", role = "menuitem" })</li>
+
                     </ul>
+                    
                 </div>
             </div>
         </div>
+
 
 
 
