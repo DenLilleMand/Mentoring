@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace Mentor.Models.Repositories.Interfaces
     {
         IEnumerable<User> Search(string search);
         List<UserMessage> GetMessages(int? receiverId, int? senderId);
+        ArrayList CompressedDataSearch(string input, int take, int skip);
     }
 }

@@ -12,10 +12,11 @@ WishListState.WishListViewModel = function() {
             return left.votes() === right.votes() ? 0 : (right.votes() < left.votes() ? -1 : 1);
         });
     });
+
 }
 
 
-WishListState.Program = function (program) {
+WishListState.Program = function (program,wishListHub) {
     var self = this;
     self.id = program.Id;
     self.name = program.Name;
@@ -26,15 +27,31 @@ WishListState.Program = function (program) {
     self.acceptCriteria = program.AcceptCriteria;
     self.votes = ko.observable(0);
     self.voted = ko.observable(false);
-    self.downvote = function() {
+    self.downvote = function(userId) {
         var previousCount = self.votes();
         self.votes(previousCount - 1);
         self.voted(false);
+        console.log("downvote was called and this was the:");
+        console.log("wishListHub:");
+        console.log(wishListHub);
+        console.log("user id");
+        console.log(userId);
+        console.log("program");
+        console.log(self);
+        wishListHub.server.vote(this, userId, false);
     };
-    self.upvote = function () {
+    self.upvote = function (userId) {
         var previousCount = self.votes();
         self.votes(previousCount + 1);
         self.voted(true);
+        console.log("upvote was called and this was the:");
+        console.log("wishListHub:");
+        console.log(wishListHub);
+        console.log("user id");
+        console.log(userId);
+        console.log("program");
+        console.log(self);
+        wishListHub.server.vote(this, userId, true);
     };
 }
 

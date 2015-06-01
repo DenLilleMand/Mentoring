@@ -25,6 +25,24 @@ h1, h2{
     text-align:center;
 }
 
+.my-column {
+  float: left;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.one-half {
+   width: 50%    
+}
+.center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.centerWidth {
+      width: 760px;
+      box-sizing: border-box
+}
 
 .middle-page{
     margin-top: 10em;

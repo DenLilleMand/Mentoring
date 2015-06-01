@@ -24,8 +24,8 @@
                     </div>
                     <div class="vote-wrapper">
                         <div class="vote circle">
-                            <div class="increment up" data-bind="click: upvote(), css: { upvoted: voted} "></div>
-                            <div class="increment down" data-bind="click: downvote(), css: { downvoted: !voted()}"></div>
+                            <div class="increment up" data-bind="click: upvote(@Html.Raw(Json.Encode(@Model.CurrentUser.Id))), css: { upvoted: voted} "></div>
+                            <div class="increment down" data-bind="click: downvote(@Html.Raw(Json.Encode(@Model.CurrentUser.Id))), css: { downvoted: !voted()}"></div>
                             <div class="count">
                                 <span data-bind="text:votes" class="countNow"></span>
                                 /
@@ -93,7 +93,6 @@
                                     Value = interest.Name
                                 });
                             });
-
                         }
                         <div class="row form-group">
                             @Html.DropDownListFor(model => model.Name, interestItems, "-- Select interest --")
@@ -118,34 +117,45 @@
 
 
 @section WishList {
-
         <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
         <script src="~/signalr/hubs"></script>
         @Styles.Render("~/Content/css/WishList.css")
         @Scripts.Render("~/scripts/custom/WishListState.js")
 
         <script>
-            $(document).ready(function() {
-                var wishListViewModel = new WishListState.WishListViewModel();
-                console.log(wishListViewModel);
+    $(document).ready(function() {
+        var wishListViewModel = new WishListState.WishListViewModel();
+        console.log(wishListViewModel);
 
-                var wishListHub = $.connection.wishListHub;
-                console.log(wishListHub);
-                
-                //Client side functions to call the server.
-                function retrieveAllWishListPrograms() {
-                    wishListHub.server.retrieveAllWishListPrograms().done(function(wishListPrograms) {
-                        console.log(wishListPrograms);
-                        ko.utils.arrayForEach(wishListPrograms, function(program) {
-                            console.log(program);
-                            console.log(new WishListState.Program(program));
-                            wishListViewModel.Programs.push(new WishListState.Program(program));
-                        });
+        var wishListHub = $.connection.wishListHub;
+        console.log(wishListHub);
+
+        //Client side functions to call the server.
+        function retrieveAllWishListPrograms() {
+            wishListHub.server.retrieveAllWishListPrograms().done(function(wishListPrograms) {
+                console.log(wishListPrograms);
+                ko.utils.arrayForEach(wishListPrograms, function(program) {
+                    console.log(program);
+                    console.log(new WishListState.Program(program,wishListHub));
+                    wishListViewModel.Programs.push(new WishListState.Program(program,wishListHub));
+                });
+            });
+        };
+
+                function vote(program, vote) {
+                    console.log('we received a vote in the JS client, with this program:');
+                    console.log(program);
+                    var match = ko.utils.arrayFirst(wishListViewModel.Programs, function(item) {
+                        return program.Id === item.name;
                     });
-                };
-               
-                function vote(program) {
-                    wishListHub.server.vote(program,@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));
+                    console.log("received this program:");
+                    console.log(match);
+                    var previousCount = match.votes();
+                    if (vote) {
+                        match.votes(previousCount + 1);
+                    } else {
+                        match.votes(previousCount - 1);
+                    }
                 }
 
                 function createProgram(program) {
@@ -153,25 +163,24 @@
                 }
 
 
-                function receiveVote(programId, vote) {
-                    console.log("firstMatch is being called with programId:" + programId + ". with the vote:" + vote);
-                    if (!programId) {
-                        return null;
-                    } else {
-                        return ko.utils.arrayFirst(wishListViewModel.Programs, function(item) {
-                            console.log("searching for item with id:" + programId + ". Comparing atm with " + item.Id);
-                            var program =  ko.utils.stringStartsWith(item.id, programId);
-                            console.log("this is the resulting program:" + program);
-                        });
-                    }
-                };
-
-                $.connection.hub.start().done(function() {
-
-                    ko.applyBindings(wishListViewModel, $("#wishlistprograms")[0]);
-                    retrieveAllWishListPrograms();
+        function receiveVote(programId, vote) {
+            console.log("firstMatch is being called with programId:" + programId + ". with the vote:" + vote);
+            if (!programId) {
+                return null;
+            } else {
+                return ko.utils.arrayFirst(wishListViewModel.Programs, function(item) {
+                    console.log("searching for item with id:" + programId + ". Comparing atm with " + item.Id);
+                    var program =  ko.utils.stringStartsWith(item.id, programId);
+                    console.log("this is the resulting program:" + program);
                 });
+            }
+        };
 
-            });
+        $.connection.hub.start().done(function() {
+            ko.applyBindings(wishListViewModel, $("#wishlistprograms")[0]);
+            retrieveAllWishListPrograms();
+        });
+
+    });
         </script>
     }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using Mentor.Models;
@@ -24,12 +26,14 @@ namespace Mentor.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetSearchData(string input)
+        public ActionResult GetSearchData(string input,int take, int skip)
         {
-            ProfileViewModel profileViewModel = new ProfileViewModel();
-            profileViewModel.Programs = _programRepository.Search(input).ToList();
-            profileViewModel.Users = _userRepository.Search(input).ToList();
-            var finishSearchList = JsonConvert.SerializeObject(profileViewModel, Formatting.None, new JsonSerializerSettings()
+            var both = new ArrayList();
+            both.Add(_programRepository.CompressedDataSearch(input,take,skip));
+            both.Add(_userRepository.CompressedDataSearch(input,take,skip));
+           
+            var finishSearchList = JsonConvert.SerializeObject(both, Formatting.None,
+                new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             });
@@ -42,7 +46,18 @@ namespace Mentor.Controllers
         {
             return Content(_userRepository.Read(Convert.ToInt32(User.Identity.GetUserId())).FirstName);
         }
-       
+
+        public ActionResult GetPersonNoti(int? id)
+        {
+            var finishSearchList = JsonConvert.SerializeObject(_userRepository.Read(Convert.ToInt32(User.Identity.GetUserId())).Notifications, Formatting.None, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            });
+
+            return Content(finishSearchList,"application/json");
+        }
+
+      
 
     }
 }

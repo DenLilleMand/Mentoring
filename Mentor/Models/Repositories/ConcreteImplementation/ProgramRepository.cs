@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,8 +19,25 @@ namespace Mentor.Models.Repositories.ConcreteImplementation
         private User CurrentUser { get; set; }
         public IEnumerable<Program> Search(string search)
         {
+           
+          
             return ApplicationDbContext.Set<Program>().Where(n => n.Name.Contains(search));
         }
+
+        public ArrayList CompressedDataSearch(string input, int take,int skip)
+        {
+            var programs =  new ArrayList();
+            foreach (var item in Search(input).ToList().Skip(skip).Take(take))
+            {
+                byte[] yourBytes = item.Picture;
+                var p = new { Id = item.Id, Name = item.Name, Picture = yourBytes };
+
+                programs.Add(p);
+            }
+            return programs;
+        }
+
+
 
         public ICollection<ProgramMessage> GetProgramMessages(int? id)
         {

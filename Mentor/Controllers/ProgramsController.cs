@@ -29,24 +29,7 @@ namespace Mentor.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IInterestRepository _interestRepository;
 
-        /* 
-         * Reasoning behind our Controller setup, this comment is general for all our controllers and their logic.
-         * When i made this to begin with, it was thouth out to be very flexible, with Ninject, injecting 
-         * our repositories into the controller, and being able to make a mock repository for tests and at the same time
-         * give repositories the option to implement individual methods w/o interupting the other classes. 
-         * The result though, looks very hardcoded, because we dont use IRepository as argument forexample, 
-         * but i think the looks might be deceiveing, we've actually bound the injection(NinjectWebCommon.cs) up on the 
-         * abstractinterface AbstractIRepository, with type argument <Program>, <User> etc. so if we said that the goal was to
-         * "implement individual methods in all repositories(because adding them to the IRepository 
-         * Interface would mess up all classes." Then we've reached our goal.
-         * If we said that the goal was to "get rid of duplicate code e.g. CRUD in Repositories" then that goal has succeeded aswell,
-         * by abstracting it into our AbstractIRepository.  The final test is to ask ourselfes if we can test our code, 
-         * right now it looks like we just take in a hardcoded dependency ProgramRepository, which allready inherits from a 
-         * Abstract class that implements methods that call the database, so to make this happen, we would have to 
-         * make a class that inherits from AbstractIRepository<Program>, override all CRUD methods + create the methods 
-         * that are repository specific for Program, And then ninject that Concrete implementation, so maybe Ninject 
-         * allows us to implement kind of badly thought out design, but it works. 
-         */
+        
 
         public ProgramsController(IProgramRepository programRepository, IUserRepository userRepository,
             IInterestRepository interestRepository)

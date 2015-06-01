@@ -24,7 +24,6 @@ namespace Mentor.hubs
 
         public void Vote(WishListProgramJson program) {
             Debug.WriteLine("Received the vote, with program:" + program);
-            
         }
 
 

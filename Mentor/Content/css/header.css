@@ -23,6 +23,7 @@
 }
 
 
+
 /*Give some distance to the search icon from the search box*/
 i.fa.fa-search {
     margin-right: 1em;
@@ -60,9 +61,6 @@ i.fa.fa-search {
     border-radius: 90px;
 }
 
-.profileTab {
-    margin-left: 5em;
-}
 .half-col {
     margin-left: 1em;
     margin-right: 1em;
@@ -80,4 +78,8 @@ i.fa.fa-search {
 
 a#exploreLink {
     padding: 0;
+}
+
+#width100 {
+    width: 100%;
 }

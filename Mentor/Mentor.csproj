@@ -17,10 +17,10 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -262,6 +262,10 @@
     <Compile Include="ViewModels\WishListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\mentordb_version18.mdf" />
+    <Content Include="App_Data\mentordb_version18_log.ldf">
+      <DependentUpon>mentordb_version18.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\blocksystem\bootstrap-block-grid.css" />
     <Content Include="Content\bootstrapmodal\bootstrap-modal-bs3patch.css" />
     <Content Include="Content\bootstrapmodal\bootstrap-modal.css" />
@@ -275,6 +279,7 @@
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\css\tagit.ui-zendesk.css" />
+    <Content Include="Content\css\preloader.css" />
     <Content Include="Content\slider\myprograms.carousel.css" />
     <Content Include="Content\slider\myprograms.theme.css" />
     <Content Include="Content\slider\myprograms.transitions.css" />
@@ -330,6 +335,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\css\jquery.tagit.css" />
+    <Content Include="Scripts\addNoti.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\css\Program.css" />
@@ -360,8 +366,9 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\moreSearch.js" />
     <Content Include="Scripts\npm.js" />
-    <Content Include="Scripts\SearchFunction.js" />
+    <Content Include="Scripts\searchFunction.js" />
     <Content Include="Scripts\tag-it.js" />
     <Content Include="Scripts\custom\notusedjs\WishList.js" />
     <Content Include="Scripts\custom\WishListState.js" />
@@ -419,9 +426,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Programs\MyPrograms.cshtml" />
     <Content Include="Views\Programs\WishList.cshtml" />
+    <Content Include="Views\User\moreResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
     <Folder Include="Views\Utility\" />
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace Mentor.Controllers
             _userRepository = userRepository;
         }
 
-
+        private User CurrentUser { get; set; }
         // GET: Profile
         public ActionResult Index(int? id)
         {
@@ -33,10 +33,15 @@ namespace Mentor.Controllers
             //Im not entirely sure why User.Identity.GetUserId() doesnt work in the Login Action, 
             //but this is the most reasonable fix i have for the issue.  Obviously we can still call this get,
             //without being logged in, and would get an error, because the id is null, and the User.Identity.getUserId()
+            
+            
             //would return an empty string. So we should find some Authenticated Annotation to put on this action?
+
+            //problem her!! Hvis vi er inde på en profil, så sender den id med
+            User user = _userRepository.Read(Int32.Parse(User.Identity.GetUserId()));
             if (id == null)
             {
-                return View(_userRepository.Read(Int32.Parse(User.Identity.GetUserId()))); ;
+                return View(user); ;
             }
             return View(_userRepository.Read(id));
         }
@@ -72,6 +77,12 @@ namespace Mentor.Controllers
             {
                 RedirectUrl = "/User/index/" + userId
             }), "application/json");
+        }
+        [HttpGet]
+        public ActionResult moreResult()
+        {
+            
+            return View();
         }
 
         //                [HttpPost]
