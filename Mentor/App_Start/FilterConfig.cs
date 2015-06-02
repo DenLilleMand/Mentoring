@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 
 /**
- * Author: auto gen?
+ * Author: Jon
  */
 namespace Mentor
 {
