@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿ <!-- Jon/martin-->
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -115,12 +116,10 @@
         $('#searchResult').on('click', function () {
             if ($("#inputSearch").val() !== "") {
                 //window.location.pathname = "/";
-
                 var form = $('<form id="more"action="/User/moreResult" method="get"</form>');
                 sessionStorage.setItem("input", $("#inputSearch").val());
                 form.submit();
             }
-
         });
 
     </script>

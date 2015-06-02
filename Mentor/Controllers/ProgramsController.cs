@@ -21,6 +21,9 @@ using Mentor.hubs;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 
+/**
+ * Author: Matti
+ */
 namespace Mentor.Controllers
 {
     public class ProgramsController : Controller
@@ -205,7 +208,6 @@ namespace Mentor.Controllers
             {
                 program.Mentee.Add(application.SendingUser);
             }
-            _programRepository.Update(program);
             return RedirectToAction("Index", new { Id = program.Id}); //current state of this implementation, obviously the person should only have access to the program after a mentor
                         //accepted the request. 
         }

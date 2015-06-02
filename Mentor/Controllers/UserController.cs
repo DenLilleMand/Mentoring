@@ -10,7 +10,9 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
-
+/**
+ * Author: Martin
+ */
 namespace Mentor.Controllers
 {
 

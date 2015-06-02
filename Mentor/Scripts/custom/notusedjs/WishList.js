@@ -1,4 +1,7 @@
-﻿    $(function () {
+﻿/**
+ * Author: Jon
+ */
+$(function () {
         $(".increment").click(function () {
             var countNow = parseInt($("~ .count .countNow", this).text());
             var total = parseInt($("~ .count .total", this).text());

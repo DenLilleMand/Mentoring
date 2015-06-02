@@ -12,6 +12,10 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Mentor.Models;
 
+
+/**
+ * Author: Jon
+ */
 namespace Mentor
 {
     public class EmailService : IIdentityMessageService

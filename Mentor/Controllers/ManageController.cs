@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Mentor.Models;
 
+/**
+ * Author: Jon
+ */
 namespace Mentor.Controllers
 {
     [Authorize]

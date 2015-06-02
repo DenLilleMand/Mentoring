@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using Mentor.Models.Repositories.Interfaces;
-
+/**
+ * Author: Martin
+ */
 namespace Mentor.Models
 {
     public class Notification : IContextEntity

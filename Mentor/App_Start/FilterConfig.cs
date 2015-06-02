@@ -1,6 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
+/**
+ * Author: auto gen?
+ */
 namespace Mentor
 {
     public class FilterConfig

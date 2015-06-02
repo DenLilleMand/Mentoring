@@ -8,7 +8,9 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using System.Diagnostics;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.hubs
 {
     public class MyProgramsHub : Hub

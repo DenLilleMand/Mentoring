@@ -13,7 +13,9 @@ using Mentor.Models.Repositories.Interfaces;
 using Mentor.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-
+ /**
+  * matti
+  */
 namespace MentorTest.Controllers
 {
     [TestClass]

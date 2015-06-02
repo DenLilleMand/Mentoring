@@ -11,7 +11,9 @@ using Mentor.Models.Repositories.ConcreteImplementation;
 using Microsoft.AspNet.SignalR;
 
 [assembly: OwinStartup(typeof(Mentor.Startup))]
-
+/**
+ * Author: Jon
+ */
 namespace Mentor
 {
     public partial class Startup

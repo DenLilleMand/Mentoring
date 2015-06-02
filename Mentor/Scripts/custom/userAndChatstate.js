@@ -1,4 +1,6 @@
-﻿
+﻿/**
+ * Author: matti
+ */
 
 var userAndChatstate = {}
 

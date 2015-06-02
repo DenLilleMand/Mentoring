@@ -1,6 +1,10 @@
 using System.Web;
 using System.Web.Optimization;
 
+
+/**
+ * Author: Jon
+ */
 namespace Mentor
 {
     public class BundleConfig

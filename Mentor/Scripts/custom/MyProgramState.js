@@ -2,7 +2,9 @@
     A class that contains  application state. part of the KnockoutJS implementation in 
     MyPrograms.cshtml.
 */
-
+/**
+ * Author: matti
+ */
 
 var MyProgramState = {}
 

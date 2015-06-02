@@ -8,7 +8,9 @@ using System.Security.Policy;
 using System.Web;
 using Mentor.Models.Repositories.AbstractInterfaces;
 using Mentor.Models.Repositories.Interfaces;
-
+/**
+ * Author: martin
+ */
 namespace Mentor.Models.Repositories.ConcreteImplementation
 {
     public class UserRepository : AbstractIRepository<User>, IUserRepository

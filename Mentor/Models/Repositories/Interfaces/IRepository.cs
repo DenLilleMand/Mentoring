@@ -4,7 +4,9 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.Models.Repositories.Interfaces
 {
     public interface IRepository<TEntity>

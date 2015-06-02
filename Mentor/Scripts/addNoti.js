@@ -1,4 +1,6 @@
-﻿
+﻿/**
+ * Author: Martin
+ */
 
 $.ajax({
     type: 'GET',

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+/**
+ * Author: Jon
+ */
 namespace Mentor.Models
 {
     public class ExternalLoginConfirmationViewModel

@@ -12,7 +12,9 @@ using Microsoft.Owin.Security;
 using Mentor.Models;
 using Mentor.Models.Repositories.ConcreteImplementation;
 using Mentor.ViewModels;
-
+/**
+ * Author: Jon
+ */
 namespace Mentor.Controllers
 {
      

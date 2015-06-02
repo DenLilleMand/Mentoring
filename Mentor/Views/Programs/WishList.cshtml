@@ -1,4 +1,5 @@
-﻿@using Mentor.Models
+﻿<!-- Matti-->
+@using Mentor.Models
 @using Microsoft.Ajax.Utilities
 @model Mentor.ViewModels.WishListViewModel
 @{
@@ -8,9 +9,11 @@
 <div id="side-panel">
     <button class="btn btn-primary full-width" data-toggle="modal" data-target="#myModal"> Create wish! </button>
 </div>
+ <!-- Jon har stået for layout og vores ul-->
 <div id="center-panel" class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
+           
             <ul class="wishList" id="wishlistprograms" data-bind="foreach:SortedPrograms">
                 <li>
                     <!--class="vertical-align">-->
@@ -24,7 +27,7 @@
                     </div>
                     <div class="vote-wrapper">
                         <div class="vote circle">
-                            <div class="increment up" data-bind="click: upvote(@Html.Raw(Json.Encode(@Model.CurrentUser.Id))), css: { upvoted: voted} "></div>
+                            <div class="increment up" data-bind="click: upvote(@Html.Raw(Json.Encode(@Model.CurrentUser.Id))),css { upvoted voted} "></div>
                             <div class="increment down" data-bind="click: downvote(@Html.Raw(Json.Encode(@Model.CurrentUser.Id))), css: { downvoted: !voted()}"></div>
                             <div class="count">
                                 <span data-bind="text:votes" class="countNow"></span>
@@ -141,22 +144,16 @@
                 });
             });
         };
+        wishListHub.on('vote', function(program, vote) {
+            console.log('we received a vote in the JS client, with this program:');
+            console.log(program);
+            var match = ko.utils.arrayFirst(wishListViewModel.Programs, function(item) {
+                return program.Id === item.id;
+            });
+            console.log("received this program:");
+            console.log(match);
+        });        
 
-                function vote(program, vote) {
-                    console.log('we received a vote in the JS client, with this program:');
-                    console.log(program);
-                    var match = ko.utils.arrayFirst(wishListViewModel.Programs, function(item) {
-                        return program.Id === item.name;
-                    });
-                    console.log("received this program:");
-                    console.log(match);
-                    var previousCount = match.votes();
-                    if (vote) {
-                        match.votes(previousCount + 1);
-                    } else {
-                        match.votes(previousCount - 1);
-                    }
-                }
 
                 function createProgram(program) {
                     wishListHub.server.addProgram(program,@Html.Raw(Json.Encode(@Model.CurrentUser.Id)));

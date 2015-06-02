@@ -9,7 +9,9 @@ using System.Linq;
 using Mentor.Models;
 using Mentor.Models.Repositories.ConcreteImplementation;
 using Microsoft.AspNet.Identity;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.hubs
 {
     /**

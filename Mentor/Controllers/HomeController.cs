@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
-
+/**
+ * Author: auto gen
+ */
 namespace Mentor.Controllers
 {
     public class HomeController : Controller

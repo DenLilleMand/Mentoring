@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Mentor.Models;
-
+/**
+ * Author: Martin
+ */
 namespace Mentor.ViewModels
 {
     public class HeaderAndFooterViewModel

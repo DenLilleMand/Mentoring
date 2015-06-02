@@ -1,4 +1,7 @@
-﻿function searchUsers(dataUsers) {
+﻿/**
+ * Author: martin
+ */
+function searchUsers(dataUsers) {
     if (dataUsers.length !== 0) {
         for (var i = 0; i <dataUsers.length; i++) {
           

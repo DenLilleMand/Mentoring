@@ -5,7 +5,9 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using Mentor.Models.Repositories.Interfaces;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.Models.Repositories.AbstractInterfaces
 {
     public abstract class AbstractIRepository<TEntity> : IRepository<TEntity> where TEntity : class 

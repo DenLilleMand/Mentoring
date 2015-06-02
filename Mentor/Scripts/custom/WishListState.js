@@ -1,4 +1,6 @@
-﻿
+﻿/**
+ * Author: matti
+ */
 
 
 var WishListState = {};
@@ -17,7 +19,7 @@ WishListState.WishListViewModel = function() {
 
 
 WishListState.Program = function (program,wishListHub) {
-    var self = this;
+    var self =this;
     self.id = program.Id;
     self.name = program.Name;
     self.reason = program.Reason;
@@ -27,31 +29,23 @@ WishListState.Program = function (program,wishListHub) {
     self.acceptCriteria = program.AcceptCriteria;
     self.votes = ko.observable(0);
     self.voted = ko.observable(false);
-    self.downvote = function(userId) {
-        var previousCount = self.votes();
-        self.votes(previousCount - 1);
-        self.voted(false);
-        console.log("downvote was called and this was the:");
-        console.log("wishListHub:");
-        console.log(wishListHub);
-        console.log("user id");
-        console.log(userId);
-        console.log("program");
-        console.log(self);
-        wishListHub.server.vote(this, userId, false);
-    };
-    self.upvote = function (userId) {
-        var previousCount = self.votes();
-        self.votes(previousCount + 1);
+    self.upvote = function(userId) {
         self.voted(true);
-        console.log("upvote was called and this was the:");
-        console.log("wishListHub:");
-        console.log(wishListHub);
-        console.log("user id");
-        console.log(userId);
-        console.log("program");
-        console.log(self);
-        wishListHub.server.vote(this, userId, true);
+        console.log("fired a vote");
+        if (userId > 0) {
+            wishListHub.server.vote(this, userId, true);
+        }
     };
+   self.downvote = function (userId) {
+        self.voted(true);
+        console.log("fired a vote");
+        if (userId > 0) {
+            wishListHub.server.vote(this, userId, false);
+        }
+    };
+
 }
 
+
+/*        var previousCount = self.votes();
+        self.votes(previousCount + 1);*/

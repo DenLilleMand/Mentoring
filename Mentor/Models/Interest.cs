@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Mentor.Models;
 using Mentor.Models.Repositories.Interfaces;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.Models
 {
     public class Interest : IContextEntity

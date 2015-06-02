@@ -17,7 +17,9 @@ using Microsoft.AspNet.SignalR.Transports;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using WebGrease.Css.Extensions;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.hubs
 {
         public class ProgramChatHub : Hub

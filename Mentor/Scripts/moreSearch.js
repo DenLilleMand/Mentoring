@@ -1,4 +1,8 @@
-﻿skip = 0;
+﻿/**
+ * Author: martin
+ */
+
+skip = 0;
     function searchUsersmore(dataUsers) {
         for (var i = 0; i < dataUsers.length; i++) {
             $('.personMore').append('<li><a class="outputSearch" href="/User/index/' + dataUsers[i].Id + '"><img src="~/pictures/b.png" class="searchPicture"/>' + dataUsers[i].FirstName + ' ' + dataUsers[i].LastName + '</a></li>');

@@ -11,7 +11,9 @@ using Mentor.Models.Repositories.Interfaces;
 using Mentor.ViewModels;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
-
+/**
+ * Author: Martin
+ */
 namespace Mentor.Controllers
 {
     public class UtilityController : Controller

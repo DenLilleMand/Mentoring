@@ -2,7 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-
+/**
+ * Author: Jon
+ */
 namespace Mentor.Models
 {
     public class IndexViewModel

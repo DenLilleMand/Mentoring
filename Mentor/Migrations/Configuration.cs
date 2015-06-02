@@ -3,7 +3,9 @@ using System.Data.Entity.Validation;
 using Mentor.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.Migrations
 {
     using System;

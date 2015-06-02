@@ -7,6 +7,10 @@ using Mentor.Models.Repositories.Interfaces;
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Mentor.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Mentor.App_Start.NinjectWebCommon), "Stop")]
 
+
+/**
+ * Author: Matti
+ */
 namespace Mentor.App_Start
 {
     using System;

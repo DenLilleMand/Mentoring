@@ -1,5 +1,7 @@
 ﻿
-
+/**
+ * Author: Jon
+ */
     var programs = [];
 var program = {};
 //constructor for programs

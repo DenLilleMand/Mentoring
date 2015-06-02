@@ -3,7 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.Design;
 using Mentor.Models.Repositories.Interfaces;
-
+/**
+ * Author: matti
+ */
 namespace Mentor.Models 
 {
 
