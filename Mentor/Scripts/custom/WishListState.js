@@ -32,20 +32,19 @@ WishListState.Program = function (program,wishListHub) {
     self.upvote = function(userId) {
         self.voted(true);
         console.log("fired a vote");
-        if (userId > 0) {
-            wishListHub.server.vote(this, userId, true);
-        }
+        var previousCount = self.votes();
+        self.votes(previousCount + 1);
+        /*wishListHub.server.vote(this, userId, true);*/
+
     };
    self.downvote = function (userId) {
         self.voted(true);
         console.log("fired a vote");
-        if (userId > 0) {
-            wishListHub.server.vote(this, userId, false);
-        }
+        var previousCount = self.votes();
+        self.votes(previousCount - 1);
+        /* wishListHub.server.vote(this, userId, false);*/
     };
 
 }
 
 
-/*        var previousCount = self.votes();
-        self.votes(previousCount + 1);*/

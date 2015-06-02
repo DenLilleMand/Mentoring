@@ -18,7 +18,6 @@ namespace Mentor.Controllers
         // GET: DashBoard
         public ActionResult Index(int id)
         {
-
             return View(_userRepository.Read(id));
         }
     }
